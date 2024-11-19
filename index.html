@@ -10,7 +10,7 @@
             padding: 0;
             width: 100%;
             height: 100%;
-            overflow: auto;
+            overflow-x: hidden; /* Yatay kaydırmayı kaldır */
         }
 
         #pdf-container {
@@ -22,10 +22,13 @@
 
         canvas {
             margin-bottom: 20px;
+            width: 100%; /* Ekranın tamamını kaplar */
+            max-width: 100%; /* Genişliği ekran sınırına uyarlar */
+            height: auto; /* Oranları korur */
             box-shadow: 0 2px 5px rgba(0,0,0,0.3);
         }
     </style>
-    <!-- PDF.js kütüphanesi -->
+    <!-- PDF.js Kütüphanesi -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 </head>
 <body>
@@ -43,15 +46,20 @@
 
             for (let i = 1; i <= numPages; i++) {
                 pdf.getPage(i).then(page => {
-                    const viewport = page.getViewport({ scale: 1.5 });
+                    // Telefon ekranına göre ölçekleme
+                    const viewport = page.getViewport({ scale: 1 }); // Varsayılan ölçek
+                    const scaleFactor = window.innerWidth / viewport.width; // Ekran genişliğine göre ölçek
+
+                    const scaledViewport = page.getViewport({ scale: scaleFactor }); // Ölçeklendirilmiş viewport
                     const canvas = document.createElement('canvas');
                     const ctx = canvas.getContext('2d');
-                    canvas.width = viewport.width;
-                    canvas.height = viewport.height;
+
+                    canvas.width = scaledViewport.width;
+                    canvas.height = scaledViewport.height;
 
                     const renderContext = {
                         canvasContext: ctx,
-                        viewport: viewport
+                        viewport: scaledViewport
                     };
 
                     page.render(renderContext).promise.then(() => {
