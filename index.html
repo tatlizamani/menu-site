@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tatlı Zamanı Vegan Menü</title>
-    <script src="pdfjs/pdf.js"></script>
     <style>
         html, body {
             margin: 0;
@@ -19,18 +18,23 @@
             overflow: auto;
         }
     </style>
+    <script src="pdf.js"></script> <!-- PDF.js ana dosyası -->
 </head>
 <body>
     <canvas id="pdf-viewer"></canvas>
     <script>
-        const url = './menu.pdf'; // PDF dosyanızın yolu
+        // PDF dosyanızın yolu
+        const url = './menu.pdf';
         const pdfjsLib = window['pdfjs-dist/build/pdf'];
 
-        pdfjsLib.GlobalWorkerOptions.workerSrc = './pdfjs/pdf.worker.js';
+        // PDF.js işçi dosyasını tanımlayın
+        pdfjsLib.GlobalWorkerOptions.workerSrc = './pdf.worker.js';
 
+        // Canvas'ı tanımlayın
         const canvas = document.getElementById('pdf-viewer');
         const ctx = canvas.getContext('2d');
 
+        // PDF'yi yükleyin
         pdfjsLib.getDocument(url).promise.then(pdf => {
             pdf.getPage(1).then(page => {
                 const viewport = page.getViewport({ scale: 1.5 });
