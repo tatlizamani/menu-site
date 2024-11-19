@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Tatlı Zamanı Vegan Menü</title>
     <style>
         html, body {
@@ -22,13 +22,13 @@
 
         canvas {
             margin-bottom: 20px;
-            width: 100%; /* Ekranın tamamını kaplar */
-            max-width: 100%; /* Genişliği ekran sınırına uyarlar */
-            height: auto; /* Oranları korur */
+            width: 100%; /* Ekran genişliği kadar */
+            max-width: 100%; /* Genişliği aşmaz */
+            height: auto; /* Oranları koruyarak yüksekliği ayarlar */
             box-shadow: 0 2px 5px rgba(0,0,0,0.3);
         }
     </style>
-    <!-- PDF.js Kütüphanesi -->
+    <!-- PDF.js kütüphanesi -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 </head>
 <body>
@@ -46,11 +46,11 @@
 
             for (let i = 1; i <= numPages; i++) {
                 pdf.getPage(i).then(page => {
-                    // Telefon ekranına göre ölçekleme
-                    const viewport = page.getViewport({ scale: 1 }); // Varsayılan ölçek
+                    // iPhone ve diğer cihazlara uygun ölçekleme
+                    const viewport = page.getViewport({ scale: 1 });
                     const scaleFactor = window.innerWidth / viewport.width; // Ekran genişliğine göre ölçek
-
                     const scaledViewport = page.getViewport({ scale: scaleFactor }); // Ölçeklendirilmiş viewport
+
                     const canvas = document.createElement('canvas');
                     const ctx = canvas.getContext('2d');
 
