@@ -18,19 +18,22 @@
             overflow: auto;
         }
     </style>
-    <script src="pdf.js"></script> <!-- PDF.js ana dosyası -->
+    <!-- PDF.js kütüphanesi için CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 </head>
 <body>
     <canvas id="pdf-viewer"></canvas>
     <script>
-        // PDF dosyanızın yolu
-        const url = './menu.pdf';
+        // PDF'nin URL'si
+        const url = './menu.pdf'; // PDF dosyanızın yolu
+
+        // PDF.js kütüphanesini başlatın
         const pdfjsLib = window['pdfjs-dist/build/pdf'];
 
-        // PDF.js işçi dosyasını tanımlayın
-        pdfjsLib.GlobalWorkerOptions.workerSrc = './pdf.worker.js';
+        // İşçi dosyasını ayarlayın (CDN üzerinden otomatik gelir)
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 
-        // Canvas'ı tanımlayın
+        // Canvas'ı başlatın
         const canvas = document.getElementById('pdf-viewer');
         const ctx = canvas.getContext('2d');
 
